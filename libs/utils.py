@@ -1,0 +1,122 @@
+import uuid
+from random import randint
+from datetime import datetime, timedelta
+import pytz
+
+from more_api import settings
+
+
+def str2bool(value):
+    """
+    convert string to bool
+    """
+    if not isinstance(value, str):
+        value = str(value)
+    if value:
+        return value.lower() in ("true",)
+    else:
+        return False
+
+
+def get_verification_code():
+    return randint(100000, 999999)
+
+
+def get_random_int():
+    return randint(100000, 999999)
+
+
+def get_random_between_given(start, end):
+    return randint(start, end)
+
+
+def get_datetime_now_by_date():
+    date_str = str(datetime.now().date())
+    datetime_str = "{} {}".format(date_str, "00:00:00")
+    unaware_date = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M:%S")
+    return pytz.timezone(settings.TIME_ZONE).localize(unaware_date)
+
+
+def get_datetime_by_datetime_string_with_tz(datetime_string):
+    datetime_string = datetime_string.replace("T", " ")
+    unaware_date = datetime.strptime(datetime_string, "%Y-%m-%d %H:%M:%S")
+    return pytz.timezone(settings.TIME_ZONE).localize(unaware_date)
+
+
+def get_datetime_by_datetime_string(datetime_string):
+    unaware_date = datetime.strptime(datetime_string, "%Y-%m-%d %H:%M:%S")
+    return pytz.timezone(settings.TIME_ZONE).localize(unaware_date)
+
+
+def get_datetime_from_date_string(datetime_str):
+    datetime_str = "{} {}".format(datetime_str, "00:00:00")
+    unaware_date = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M:%S")
+    return pytz.timezone(settings.TIME_ZONE).localize(unaware_date)
+
+
+def get_start_datetime_from_date_string(datetime_str):
+    datetime_str = "{} {}".format(datetime_str, "00:00:00")
+    unaware_date = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M:%S")
+    return pytz.timezone(settings.TIME_ZONE).localize(unaware_date)
+
+
+def get_end_datetime_from_date_string(datetime_str):
+    datetime_str = "{} {}".format(datetime_str, "23:59:59")
+    unaware_date = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M:%S")
+    return pytz.timezone(settings.TIME_ZONE).localize(unaware_date)
+
+
+def get_datetime_range_from_date_string(datetime_str):
+    datetime_start_str = "{} {}".format(datetime_str, "00:00:00")
+    datetime_end_str = "{} {}".format(datetime_str, "23:59:59")
+    unaware_start_date = datetime.strptime(datetime_start_str, "%Y-%m-%d %H:%M:%S")
+    unaware_end_date = datetime.strptime(datetime_end_str, "%Y-%m-%d %H:%M:%S")
+    return pytz.timezone(settings.TIME_ZONE).localize(unaware_start_date), pytz.utc.localize(unaware_end_date),
+
+
+def get_date_from_date_string(date_str):
+    datetime_str = "{} {}".format(date_str, "00:00:00")
+    unaware_date = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M:%S")
+    pytz.timezone(settings.TIME_ZONE).localize(unaware_date)
+    return unaware_date.date()
+
+
+def get_time_from_string(time_str):
+    unaware_time = datetime.strptime(time_str, '%H:%M').time()
+    return pytz.timezone(settings.TIME_ZONE).localize(unaware_time)
+
+
+def get_interval_between_time(start, end, length, date):
+    intervals = []
+    start = datetime.combine(get_date_from_date_string(date), start)
+    end = datetime.combine(get_date_from_date_string(date), end)
+
+    while start < end:
+        end_time = (start + timedelta(minutes=length))
+        end_time = (end_time - timedelta(seconds=1))
+        interval = {
+            "start": start,
+            "end": end_time,
+            "available": True
+        }
+        start = (end_time + timedelta(seconds=1))
+        intervals.append(interval)
+
+    return intervals
+
+
+def next_weekday(d, weekday):
+    import datetime
+    days_ahead = weekday - d.weekday()
+    if days_ahead <= 0:  # Target day already happened this week
+        days_ahead += 7
+    return d + datetime.timedelta(days_ahead)
+
+
+def get_uuid():
+    return str(uuid.uuid4())
+
+
+def get_current_date_string():
+    now = datetime.now().date()
+    return now.strftime('%Y-%m-%d')

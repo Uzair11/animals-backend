@@ -1,0 +1,23 @@
+### Django ###
+.DS*
+*.log
+*.pot
+*.pyc
+*.idea
+.idea
+__pycache__/
+local_settings.py
+dump.rdb
+eggs.csv
+logfile
+errors_log.out
+/media
+/static
+env/
+.vscode/
+*.pem
+.coverage
+htmlcov/
+node_modules/
+venv/
+*package-lock.json
