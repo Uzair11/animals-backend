@@ -9,7 +9,7 @@ class AnimalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Animal
-        fields = ('id', 'name', 'dob', 'user')
+        fields = ('id', 'name', 'dob', 'user', 'type')
 
     def create(self, validated_data):
         instance = super(AnimalSerializer, self).create(validated_data)
